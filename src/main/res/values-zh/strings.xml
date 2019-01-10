@@ -1,0 +1,9 @@
+<resources>
+    <string name="basic_alert_dialog_ok">好的</string>
+    <string name="basic_alert_dialog_confirm">确定</string>
+    <string name="basic_alert_dialog_cancel">取消</string>
+
+    <string name="tx_type_payment">转账</string>
+    <string name="tx_type_lease">租出</string>
+    <string name="tx_type_cancel_lease">取消租出</string>
+</resources>

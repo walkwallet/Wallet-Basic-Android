@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.BasicDialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="basic_btn_border_radius">@dimen/basic_btn_border_radius</item>
+    </style>
+
+    <style name="Base.BasicDialog.Light" parent="Base.BasicDialog" />
+
+    <style name="Base.BasicDialog.Dark" parent="Base.BasicDialog" />
+
+    <style name="BasicDialog.Dark" parent="Base.BasicDialog.Dark">
+        <item name="basic_dialog_background">@drawable/basic_dialog_background_dark</item>
+    </style>
+
+    <style name="BasicDialog.Light" parent="Base.BasicDialog.Light">
+        <item name="basic_btn_border_color">@color/basic_divider_light</item>
+        <item name="basic_dialog_background">@drawable/basic_dialog_background_light</item>
+    </style>
+
+    <style name="BasicAlertDialog.Dark" parent="BasicDialog.Dark">
+        <item name="basic_dialog_title_text_color">@color/basic_dialog_primary_text_dark
+        </item>
+        <item name="basic_dialog_content_text_color">@color/basic_dialog_tertiary_text_dark
+        </item>
+        <item name="basic_dialog_positive_button_style">@style/BasicButton</item>
+        <item name="basic_dialog_negative_button_style">@style/BasicButton.Dark</item>
+    </style>
+
+    <style name="BasicAlertDialog.Light" parent="BasicDialog.Light">
+        <item name="basic_dialog_title_text_color">@color/basic_dialog_primary_text_light
+        </item>
+        <item name="basic_dialog_content_text_color">@color/basic_dialog_tertiary_text_light
+        </item>
+        <item name="basic_dialog_positive_button_style">@style/BasicButton</item>
+        <item name="basic_dialog_negative_button_style">@style/BasicButton.Bordered</item>
+    </style>
+
+    <style name="BasicButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/basic_btn_colored_background</item>
+        <item name="android:textAppearance">@style/BasicTextAppearance.AppCompat.Light</item>
+    </style>
+
+    <style name="BasicButton.Bordered" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/basic_btn_bordered_background</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    </style>
+
+    <style name="BasicButton.Dark" parent="BasicButton">
+        <item name="android:background">@drawable/basic_btn_colored_background_dark</item>
+    </style>
+
+    <style name="BasicTextAppearance.AppCompat.Light" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/background_light</item>
+    </style>
+</resources>

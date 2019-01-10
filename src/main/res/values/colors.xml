@@ -1,0 +1,18 @@
+<resources>
+    <color name="basic_primary">#ff8737</color>
+    <color name="basic_divider_light">#e8e8eb</color>
+    <color name="basic_divider_dark">#45454d</color>
+
+    <color name="basic_btn_colored_background_light">@color/basic_primary</color>
+    <color name="basic_btn_colored_background_dark">#45454d</color>
+    <color name="basic_btn_border_color">@color/basic_divider_light</color>
+
+    <color name="basic_dialog_background_light">#ffffff</color>
+    <color name="basic_dialog_background_dark">#2b2b33</color>
+    <color name="basic_dialog_primary_text_light">#36363d</color>
+    <color name="basic_dialog_primary_text_dark">#ffffff</color>
+    <color name="basic_dialog_secondary_text_light">#54545c</color>
+    <color name="basic_dialog_secondary_text_dark">#ffffff</color>
+    <color name="basic_dialog_tertiary_text_light">#939399</color>
+    <color name="basic_dialog_tertiary_text_dark">#81818a</color>
+</resources>

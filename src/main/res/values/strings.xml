@@ -1,0 +1,9 @@
+<resources>
+    <string name="basic_alert_dialog_ok">OK</string>
+    <string name="basic_alert_dialog_confirm">Confirm</string>
+    <string name="basic_alert_dialog_cancel">Cancel</string>
+
+    <string name="tx_type_payment">Payment</string>
+    <string name="tx_type_lease">Lease</string>
+    <string name="tx_type_cancel_lease">Cancel Lease</string>
+</resources>

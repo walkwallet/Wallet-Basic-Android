@@ -1,0 +1,14 @@
+<resources>
+    <attr name="basic_btn_border_radius" format="dimension|reference" />
+    <attr name="basic_btn_border_color" format="color|reference" />
+
+    <attr name="basic_dialog_background" format="color|reference" />
+
+    <attr name="basic_dialog_positive_button_text" format="string|reference" />
+    <attr name="basic_dialog_negative_button_text" format="string|reference" />
+
+    <attr name="basic_dialog_title_text_color" format="color|reference" />
+    <attr name="basic_dialog_content_text_color" format="color|reference" />
+    <attr name="basic_dialog_positive_button_style" format="reference" />
+    <attr name="basic_dialog_negative_button_style" format="reference" />
+</resources>
