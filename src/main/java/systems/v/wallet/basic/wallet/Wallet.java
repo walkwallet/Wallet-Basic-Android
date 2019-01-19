@@ -29,42 +29,22 @@ public class Wallet {
     private ArrayList<Account> coldAccounts = new ArrayList<>();
 
     private static final String TAG = "Wallet";
-    private static final String WALLET_VERSION = "1.0";
-    private static final String AGENT_VERSION = "1.0.0";
-    private static final String AGENT_NAME = "Walk Wallet Cold Android";
 
     private static final SimplePropertyPreFilter JSON_FILTER = new SimplePropertyPreFilter("seed", "nonce", "network", "agent");
 
     public Wallet() {
     }
 
-    public Wallet(String seed) {
-        this(seed, 0);
+    public Wallet(String seed, String network, Agent agent) {
+        this(seed, 0, network, agent);
     }
 
-    public Wallet(String seed, long nonce) {
-        this(seed, nonce, MAIN_NET);
-    }
-
-    public Wallet(String seed, String network) {
-        this(seed, 0, network);
-    }
-
-    public Wallet(String seed, long nonce, String network) {
+    public Wallet(String seed, long nonce, String network, Agent agent) {
         this.network = ensureNetwork(network);
         this.seed = seed;
         this.nonce = nonce;
-
-        String net = "";
-        switch (network) {
-            case MAIN_NET:
-                net = "mainnet";
-                break;
-            case TEST_NET:
-                net = "testnet";
-        }
-        agent = "VSYS Wallet:" + WALLET_VERSION + "/" + AGENT_NAME + ":" + AGENT_VERSION + "/" + net;
-        Log.d(TAG, agent);
+        this.agent = agent.toString();
+        Log.d(TAG, this.agent);
     }
 
     /**
