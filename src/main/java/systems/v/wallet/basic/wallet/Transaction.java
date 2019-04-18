@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSON;
 import java.util.HashMap;
 import java.util.Map;
 
-import systems.v.vsys.Vsys;
 import systems.v.wallet.basic.utils.TxUtil;
+import vsys.Vsys;
 
 public class Transaction {
     public static final String TAG = "Transaction";
@@ -14,6 +14,9 @@ public class Transaction {
     public static final int PAYMENT = (int) Vsys.TxTypePayment;
     public static final int LEASE = (int) Vsys.TxTypeLease;
     public static final int CANCEL_LEASE = (int) Vsys.TxTypeCancelLease;
+    public static final int ContractRegister = (int) Vsys.TxTypeContractRegister;
+    public static final int ContractExecute = (int) Vsys.TxTypeContractExecute;
+
     public static final int MINTING = 5;
     public static final long DEFAULT_FEE = Vsys.DefaultTxFee;
     public static final short DEFAULT_FEE_SCALE = Vsys.DefaultFeeScale;
@@ -33,11 +36,12 @@ public class Transaction {
     }
 
     public static boolean validate(int type) {
-        return type == PAYMENT || type == LEASE || type == CANCEL_LEASE;
+        return type == PAYMENT || type == LEASE || type == CANCEL_LEASE ||
+                type == ContractRegister || type == ContractRegister;
     }
 
     public void sign(Account sender) {
-        systems.v.vsys.Transaction tx = null;
+        vsys.Transaction tx = null;
         switch (transactionType) {
             case PAYMENT: {
                 tx = Vsys.newPaymentTransaction(recipient, amount);
@@ -83,6 +87,11 @@ public class Transaction {
             case CANCEL_LEASE:
                 map.put("recipient", recipient);
                 map.put("txId", txId);
+                break;
+            case ContractRegister:
+                map.put("","");
+                break;
+            case ContractExecute:
                 break;
         }
         map.put("signature", signature);

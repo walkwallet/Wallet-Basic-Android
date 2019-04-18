@@ -7,8 +7,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-import systems.v.vsys.Vsys;
+import systems.v.wallet.basic.BuildConfig;
+import vsys.Contract;
+import vsys.Vsys;
 
 public class Wallet {
 
@@ -22,7 +25,6 @@ public class Wallet {
     private String password;
     private String salt;
 
-    @JSONField(serialize = false)
     private ArrayList<Account> accounts = new ArrayList<>();
 
     @JSONField(serialize = false)
@@ -44,7 +46,7 @@ public class Wallet {
         this.seed = seed;
         this.nonce = nonce;
         this.agent = agent.toString();
-        Log.d(TAG, this.agent);
+//        Log.d(TAG, this.agent);
     }
 
     /**
@@ -57,8 +59,8 @@ public class Wallet {
     public void append(long num) {
         if (num > 0) {
             for (long i = nonce; i < nonce + num; i++) {
-                systems.v.vsys.Wallet wallet = Vsys.newWallet(seed, network);
-                Account account = new Account(seed, nonce, network, wallet.generateAccount(i));
+                vsys.Wallet wallet = Vsys.newWallet(seed, network);
+                Account account = new Account(seed, nonce, network, wallet.generateAccount(i), String.format(Locale.US, "%02d", i + 1));
                 Log.d(TAG, account.toString());
                 accounts.add(account);
             }
@@ -69,10 +71,10 @@ public class Wallet {
     }
 
     public ArrayList<Account> generateAccounts() {
-        systems.v.vsys.Wallet wallet = Vsys.newWallet(seed, network);
+        vsys.Wallet wallet = Vsys.newWallet(seed, network);
         accounts.clear();
         for (long i = 0; i < nonce; i++) {
-            Account account = new Account(seed, nonce, network, wallet.generateAccount(i));
+            Account account = new Account(seed, nonce, network, wallet.generateAccount(i), "");
             Log.d(TAG, account.toString());
             accounts.add(account);
         }
@@ -204,5 +206,15 @@ public class Wallet {
 
     public void setColdAccounts(ArrayList<Account> coldAccounts) {
         this.coldAccounts = coldAccounts;
+    }
+
+    public static void main(String []args){
+        Agent agent = new Agent("Walk Wallet Hot", BuildConfig.VERSION_NAME, MAIN_NET);
+        Wallet wallet = new Wallet("danielzzz", MAIN_NET, agent);
+        vsys.Contract c = new Contract();
+        c.setMax(255);
+        byte[] bytes = c.burnBuildData();
+
+        System.out.println(wallet.toWalletStr());
     }
 }

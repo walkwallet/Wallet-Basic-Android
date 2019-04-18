@@ -4,13 +4,14 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class Account implements AccountBalance {
     private long nonce;
+    private String alias;
     private String network;
     private String seed;
     private String address;
     private String publicKey;
 
     @JSONField(serialize = false)
-    private systems.v.vsys.Account account;
+    private vsys.Account account;
 
     // balance info
     private long regular; // total balance
@@ -22,7 +23,8 @@ public class Account implements AccountBalance {
     public Account() {
     }
 
-    public Account(String seed, long nonce, String network, systems.v.vsys.Account account) {
+    public Account(String seed, long nonce, String network, vsys.Account account,String alias ) {
+        this.alias = alias;
         this.seed = seed;
         this.nonce = nonce;
         this.network = network;
@@ -110,11 +112,11 @@ public class Account implements AccountBalance {
         this.seed = seed;
     }
 
-    public systems.v.vsys.Account getAccount() {
+    public vsys.Account getAccount() {
         return account;
     }
 
-    public void setAccount(systems.v.vsys.Account account) {
+    public void setAccount(vsys.Account account) {
         this.account = account;
     }
 
@@ -156,5 +158,13 @@ public class Account implements AccountBalance {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getAlias() {
+        return alias;
     }
 }
