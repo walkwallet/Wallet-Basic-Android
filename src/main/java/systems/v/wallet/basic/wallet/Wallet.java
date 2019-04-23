@@ -213,7 +213,6 @@ public class Wallet {
         Wallet wallet = new Wallet("danielzzz", MAIN_NET, agent);
         vsys.Contract c = new Contract();
         c.setMax(255);
-        byte[] bytes = c.burnBuildData();
 
         System.out.println(wallet.toWalletStr());
     }
