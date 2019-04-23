@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSON;
 import java.util.HashMap;
 import java.util.Map;
 
+import systems.v.wallet.basic.utils.Base58;
 import systems.v.wallet.basic.utils.TxUtil;
+import vsys.Contract;
 import vsys.Vsys;
 
 public class Transaction {
@@ -20,6 +22,7 @@ public class Transaction {
     public static final int MINTING = 5;
     public static final long DEFAULT_FEE = Vsys.DefaultTxFee;
     public static final short DEFAULT_FEE_SCALE = Vsys.DefaultFeeScale;
+    public static final long DEFAULT_CREATE_TOKEN_FEE = 100 * Vsys.VSYS;
 
     private int transactionType;
     private String senderPublicKey;
@@ -31,13 +34,16 @@ public class Transaction {
     private String attachment;
     private String txId;
     private String signature;
+    private Contract contract;
+    private short funcIdx;
+    private String data;
 
     public Transaction() {
     }
 
     public static boolean validate(int type) {
         return type == PAYMENT || type == LEASE || type == CANCEL_LEASE ||
-                type == ContractRegister || type == ContractRegister;
+                type == ContractRegister || type == ContractExecute;
     }
 
     public void sign(Account sender) {
@@ -56,6 +62,15 @@ public class Transaction {
             break;
             case CANCEL_LEASE: {
                 tx = Vsys.newCancelLeaseTransaction(txId);
+            }
+            break;
+            case ContractRegister: {
+                tx = Vsys.newRegisterTransaction(contract);
+            }
+            break;
+            case ContractExecute: {
+                tx = Vsys.newExecuteTransaction(contract, funcIdx);
+                data = Base58.encode(tx.getData()); // toRequestBody 要用
             }
             break;
         }
@@ -89,9 +104,15 @@ public class Transaction {
                 map.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("","");
+                map.put("contract", contract.getContract());
+                map.put("data", data);
+                map.put("description",contract.getTokenDescription());
                 break;
             case ContractExecute:
+                map.put("contractId", contract.getContractId());
+                map.put("funcIdx", funcIdx);
+                map.put("data", data);
+                map.put("description", contract.getTokenDescription());
                 break;
         }
         map.put("signature", signature);
@@ -211,5 +232,29 @@ public class Transaction {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    public short getFuncIdx() {
+        return funcIdx;
+    }
+
+    public void setFuncIdx(short funcIdx) {
+        this.funcIdx = funcIdx;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
