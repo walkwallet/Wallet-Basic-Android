@@ -66,11 +66,12 @@ public class Transaction {
             break;
             case ContractRegister: {
                 tx = Vsys.newRegisterTransaction(contract);
+                data = Base58.encode(tx.getData());
             }
             break;
             case ContractExecute: {
                 tx = Vsys.newExecuteTransaction(contract, funcIdx);
-                data = Base58.encode(tx.getData()); // toRequestBody 要用
+                data = Base58.encode(tx.getData());
             }
             break;
         }
