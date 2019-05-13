@@ -53,6 +53,7 @@ public class Transaction {
 
     public void sign(Account sender) {
         vsys.Transaction tx = null;
+        Log.d(TAG, JSON.toJSONString(this));
         switch (transactionType) {
             case PAYMENT: {
                 tx = Vsys.newPaymentTransaction(recipient, amount);
@@ -70,13 +71,12 @@ public class Transaction {
             }
             break;
             case ContractRegister: {
-                tx = Vsys.newRegisterTransaction(contract);
+                tx = Vsys.newRegisterTransaction(contract, attachment);
                 data = Base58.encode(tx.getData());
                 amount = contract.getAmount();
             }
             break;
             case ContractExecute: {
-                Log.d(TAG, actionCode);
                 tx = Vsys.newExecuteTransaction(contract, funcIdx, actionCode, attachment);
                 data = Base58.encode(tx.getData());
             }
@@ -114,7 +114,7 @@ public class Transaction {
             case ContractRegister:
                 map.put("contract", Base58.encode(contract.getContract()));
                 map.put("initData", data);
-                map.put("description", contract.getTokenDescription());
+                map.put("description", attachment);// encode wrong
                 break;
             case ContractExecute:
                 map.put("contractId", contract.getContractId());
@@ -148,6 +148,17 @@ public class Transaction {
             case CANCEL_LEASE:
                 map.put("recipient", recipient);
                 map.put("txId", txId);
+                break;
+            case ContractRegister:
+                map.put("contract", Base58.encode(contract.getContract()));
+                map.put("initData", data);
+                map.put("description", TxUtil.encodeAttachment(attachment));
+                break;
+            case ContractExecute:
+                map.put("contractId", contract.getContractId());
+                map.put("functionIndex", funcIdx);
+                map.put("functionData",  data);
+                map.put("attachment", TxUtil.encodeAttachment(attachment));
                 break;
         }
         Operation op = new Operation(map);
