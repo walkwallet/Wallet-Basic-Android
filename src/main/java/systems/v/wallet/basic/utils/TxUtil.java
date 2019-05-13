@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import systems.v.wallet.basic.R;
 import systems.v.wallet.basic.wallet.Transaction;
+import vsys.Contract;
 
 public class TxUtil {
 

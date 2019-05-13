@@ -18,10 +18,10 @@ public class Transaction {
     public static final int PAYMENT = (int) Vsys.TxTypePayment;
     public static final int LEASE = (int) Vsys.TxTypeLease;
     public static final int CANCEL_LEASE = (int) Vsys.TxTypeCancelLease;
+    public static final int MINTING = (int) Vsys.TxTypeMining;
     public static final int ContractRegister = (int) Vsys.TxTypeContractRegister;
     public static final int ContractExecute = (int) Vsys.TxTypeContractExecute;
 
-    public static final int MINTING = 5;
     public static final long DEFAULT_FEE = Vsys.DefaultTxFee;
     public static final short DEFAULT_FEE_SCALE = Vsys.DefaultFeeScale;
     public static final long DEFAULT_CREATE_TOKEN_FEE = 100 * Vsys.VSYS;
@@ -37,11 +37,19 @@ public class Transaction {
     private String attachment = "";
     private String txId;
     private String signature;
-    private Contract contract;
-    private short funcIdx;
-    private String actionCode; //funcIdx may change, use actionCode to mark specific execution
-
+    private Contract contractObj;
+    private String actionCode; //functionId may change, use actionCode to mark specific execution
     private String data;
+
+    private String contract;
+    private String contractInit;
+    private String contractInitTextual;
+    private String contractInitExplain;
+
+    private short  functionId;
+    private String function;
+    private String functionTextual;
+    private String functionExplain;
 
     public Transaction() {
     }
@@ -71,13 +79,13 @@ public class Transaction {
             }
             break;
             case ContractRegister: {
-                tx = Vsys.newRegisterTransaction(contract, attachment);
+                tx = Vsys.newRegisterTransaction(contractObj, attachment);
                 data = Base58.encode(tx.getData());
-                amount = contract.getAmount();
+                amount = contractObj.getAmount();
             }
             break;
             case ContractExecute: {
-                tx = Vsys.newExecuteTransaction(contract, funcIdx, actionCode, attachment);
+                tx = Vsys.newExecuteTransaction(contractObj, functionId, actionCode, attachment);
                 data = Base58.encode(tx.getData());
             }
             break;
@@ -112,13 +120,13 @@ public class Transaction {
                 map.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("contract", Base58.encode(contract.getContract()));
+                map.put("contract", Base58.encode(contractObj.getContract()));
                 map.put("initData", data);
-                map.put("description", attachment);// encode wrong
+                map.put("description", attachment);
                 break;
             case ContractExecute:
-                map.put("contractId", contract.getContractId());
-                map.put("functionIndex", funcIdx);
+                map.put("contractId", contractObj.getContractId());
+                map.put("functionIndex", functionId);
                 map.put("functionData",  data);
                 map.put("attachment", TxUtil.encodeAttachment(attachment));
                 break;
@@ -150,15 +158,19 @@ public class Transaction {
                 map.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("contract", Base58.encode(contract.getContract()));
-                map.put("initData", data);
-                map.put("description", TxUtil.encodeAttachment(attachment));
+                map.put("contract", Base58.encode(contractObj.getContract()));
+                map.put("description", attachment);
+                map.put("contractInit", data);
+                map.put("contractInitTextual", contractInitTextual);
+                map.put("contractInitExplain", contractInitExplain);
                 break;
             case ContractExecute:
-                map.put("contractId", contract.getContractId());
-                map.put("functionIndex", funcIdx);
-                map.put("functionData",  data);
                 map.put("attachment", TxUtil.encodeAttachment(attachment));
+                map.put("contractId", contractObj.getContractId());
+                map.put("functionId", functionId);
+                map.put("function",  data);
+                map.put("functionTextual", functionTextual);
+                map.put("functionExplain", functionExplain);
                 break;
         }
         Operation op = new Operation(map);
@@ -253,20 +265,20 @@ public class Transaction {
         this.signature = signature;
     }
 
-    public Contract getContract() {
-        return contract;
+    public Contract getContractData() {
+        return contractObj;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setContractData(Contract contractData) {
+        this.contractObj = contractData;
     }
 
-    public short getFuncIdx() {
-        return funcIdx;
+    public short getFunctionId() {
+        return functionId;
     }
 
-    public void setFuncIdx(short funcIdx) {
-        this.funcIdx = funcIdx;
+    public void setFunctionId(short functionId) {
+        this.functionId = functionId;
     }
 
     public String getData() {
@@ -283,5 +295,61 @@ public class Transaction {
 
     public void setActionCode(String actionCode) {
         this.actionCode = actionCode;
+    }
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+
+    public String getContractInit() {
+        return contractInit;
+    }
+
+    public void setContractInit(String contractInit) {
+        this.contractInit = contractInit;
+    }
+
+    public String getContractInitTextual() {
+        return contractInitTextual;
+    }
+
+    public void setContractInitTextual(String contractInitTextual) {
+        this.contractInitTextual = contractInitTextual;
+    }
+
+    public String getContractInitExplain() {
+        return contractInitExplain;
+    }
+
+    public void setContractInitExplain(String contractInitExplain) {
+        this.contractInitExplain = contractInitExplain;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public void setFunction(String function) {
+        this.function = function;
+    }
+
+    public String getFunctionTextual() {
+        return functionTextual;
+    }
+
+    public void setFunctionTextual(String functionTextual) {
+        this.functionTextual = functionTextual;
+    }
+
+    public String getFunctionExplain() {
+        return functionExplain;
+    }
+
+    public void setFunctionExplain(String functionExplain) {
+        this.functionExplain = functionExplain;
     }
 }
