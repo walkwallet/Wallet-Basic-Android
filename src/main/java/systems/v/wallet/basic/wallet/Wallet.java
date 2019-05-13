@@ -207,13 +207,4 @@ public class Wallet {
     public void setColdAccounts(ArrayList<Account> coldAccounts) {
         this.coldAccounts = coldAccounts;
     }
-
-    public static void main(String []args){
-        Agent agent = new Agent("Walk Wallet Hot", BuildConfig.VERSION_NAME, MAIN_NET);
-        Wallet wallet = new Wallet("danielzzz", MAIN_NET, agent);
-        vsys.Contract c = new Contract();
-        c.setMax(255);
-
-        System.out.println(wallet.toWalletStr());
-    }
 }

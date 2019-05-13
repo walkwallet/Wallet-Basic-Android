@@ -1,5 +1,7 @@
 package systems.v.wallet.basic.wallet;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class Transaction {
     public static final long DEFAULT_FEE = Vsys.DefaultTxFee;
     public static final short DEFAULT_FEE_SCALE = Vsys.DefaultFeeScale;
     public static final long DEFAULT_CREATE_TOKEN_FEE = 100 * Vsys.VSYS;
+    public static final long DEFAULT_TOKEN_TX_FEE = 3 * Vsys.DefaultTxFee;
 
     private int transactionType;
     private String senderPublicKey;
@@ -31,11 +34,13 @@ public class Transaction {
     private long fee = DEFAULT_FEE;
     private short feeScale = DEFAULT_FEE_SCALE;
     private long timestamp;
-    private String attachment;
+    private String attachment = "";
     private String txId;
     private String signature;
     private Contract contract;
     private short funcIdx;
+    private String actionCode; //funcIdx may change, use actionCode to mark specific execution
+
     private String data;
 
     public Transaction() {
@@ -52,7 +57,7 @@ public class Transaction {
             case PAYMENT: {
                 tx = Vsys.newPaymentTransaction(recipient, amount);
                 if (attachment != null) {
-                    tx.setAttachment(TxUtil.decodeAttachment(attachment).getBytes());
+                    tx.setAttachment(attachment.getBytes());
                 }
             }
             break;
@@ -67,10 +72,12 @@ public class Transaction {
             case ContractRegister: {
                 tx = Vsys.newRegisterTransaction(contract);
                 data = Base58.encode(tx.getData());
+                amount = contract.getAmount();
             }
             break;
             case ContractExecute: {
-                tx = Vsys.newExecuteTransaction(contract, funcIdx);
+                Log.d(TAG, actionCode);
+                tx = Vsys.newExecuteTransaction(contract, funcIdx, actionCode, attachment);
                 data = Base58.encode(tx.getData());
             }
             break;
@@ -94,7 +101,7 @@ public class Transaction {
             case PAYMENT:
                 map.put("recipient", recipient);
                 map.put("amount", amount);
-                map.put("attachment", attachment);
+                map.put("attachment", TxUtil.encodeAttachment(attachment));
                 break;
             case LEASE:
                 map.put("recipient", recipient);
@@ -105,15 +112,15 @@ public class Transaction {
                 map.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("contract", contract.getContract());
-                map.put("data", data);
-                map.put("description",contract.getTokenDescription());
+                map.put("contract", Base58.encode(contract.getContract()));
+                map.put("initData", data);
+                map.put("description", contract.getTokenDescription());
                 break;
             case ContractExecute:
                 map.put("contractId", contract.getContractId());
-                map.put("funcIdx", funcIdx);
-                map.put("data", data);
-                map.put("description", contract.getTokenDescription());
+                map.put("functionIndex", funcIdx);
+                map.put("functionData",  data);
+                map.put("attachment", TxUtil.encodeAttachment(attachment));
                 break;
         }
         map.put("signature", signature);
@@ -257,5 +264,13 @@ public class Transaction {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getActionCode() {
+        return actionCode;
+    }
+
+    public void setActionCode(String actionCode) {
+        this.actionCode = actionCode;
     }
 }

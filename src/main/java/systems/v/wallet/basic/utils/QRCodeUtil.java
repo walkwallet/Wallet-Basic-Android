@@ -26,6 +26,7 @@ public class QRCodeUtil {
         Operation op = new Operation(Operation.ACCOUNT);
         op.set("address", address);
         op.set("amount", amount);
+        op.set("invoice", "");
         return op.toStr();
     }
 

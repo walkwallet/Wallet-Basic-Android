@@ -2,6 +2,8 @@ package systems.v.wallet.basic.wallet;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.util.List;
+
 public class Account implements AccountBalance {
     private long nonce;
     private String alias;
@@ -9,6 +11,7 @@ public class Account implements AccountBalance {
     private String seed;
     private String address;
     private String publicKey;
+    private List<Token> watchedTokens;
 
     @JSONField(serialize = false)
     private vsys.Account account;
@@ -166,5 +169,13 @@ public class Account implements AccountBalance {
 
     public String getAlias() {
         return alias;
+    }
+
+    public List<Token> getWatchedTokens() {
+        return watchedTokens;
+    }
+
+    public void setWatchedTokens(List<Token> watchedTokens) {
+        this.watchedTokens = watchedTokens;
     }
 }

@@ -1,6 +1,7 @@
 package systems.v.wallet.basic.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.math.BigDecimal;
 
@@ -11,6 +12,14 @@ public class CoinUtil {
 
     public static String format(long amount) {
         BigDecimal decimal = new BigDecimal(amount).movePointLeft(8);
+        if (decimal.compareTo(BigDecimal.ZERO) == 0) {
+            decimal = decimal.setScale(2);
+        }
+        return decimal.stripTrailingZeros().toPlainString();
+    }
+
+    public static String format(long amount, long unity){
+        BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(unity));
         if (decimal.compareTo(BigDecimal.ZERO) == 0) {
             decimal = decimal.setScale(2);
         }
@@ -31,6 +40,27 @@ public class CoinUtil {
         }
         BigDecimal decimal = new BigDecimal(amount).movePointRight(8);
         return decimal.longValueExact();
+    }
+
+    public static long parse(String amount, long unity) {
+        if (TextUtils.isEmpty(amount)) {
+            return 0;
+        }
+        amount = amount.replace(UNIT, "").trim();
+        if (!validate(amount)) {
+            return 0;
+        }
+        BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(unity));
+        return decimal.longValue();
+    }
+
+    public static long formatLong(long amount, long unity) {
+        if(amount < 0 || unity < 0){
+            return 0;
+        }
+
+        BigDecimal decimal = new BigDecimal(amount).divide(new BigDecimal(unity));
+        return decimal.longValue();
     }
 
     public static boolean validate(String amount) {
