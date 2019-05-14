@@ -43,6 +43,7 @@ public class Transaction {
     private String actionCode; //functionId may change, use actionCode to mark specific execution
 
     private String contract;
+    private String contractId;
     private String contractInit;
     private String contractInitTextual;
     private String contractInitExplain;
@@ -352,5 +353,13 @@ public class Transaction {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 }
