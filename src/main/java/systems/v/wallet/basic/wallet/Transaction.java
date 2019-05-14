@@ -29,6 +29,8 @@ public class Transaction {
 
     private int transactionType;
     private String senderPublicKey;
+    private String address;
+
     private String recipient;
     private long amount;
     private long fee = DEFAULT_FEE;
@@ -39,7 +41,6 @@ public class Transaction {
     private String signature;
     private Contract contractObj;
     private String actionCode; //functionId may change, use actionCode to mark specific execution
-    private String data;
 
     private String contract;
     private String contractInit;
@@ -119,13 +120,13 @@ public class Transaction {
                 break;
             case ContractRegister:
                 map.put("contract", Base58.encode(contractObj.getContract()));
-                map.put("initData", data);
+                map.put("initData", contractInit);
                 map.put("description", attachment);
                 break;
             case ContractExecute:
                 map.put("contractId", contractObj.getContractId());
                 map.put("functionIndex", functionId);
-                map.put("functionData",  data);
+                map.put("functionData",  function);
                 map.put("attachment", TxUtil.encodeAttachment(attachment));
                 break;
         }
@@ -135,47 +136,45 @@ public class Transaction {
 
     // for cold wallet scan
     public String toTxString() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("senderPublicKey", senderPublicKey);
-        map.put("transactionType", transactionType);
-        map.put("fee", fee);
-        map.put("feeScale", feeScale);
-        map.put("timestamp", timestamp);
-        Operation op = new Operation(map);
-        op.setOpc(Operation.TRANSACTION);
+        Operation op = new Operation(Operation.TRANSACTION);
+        op.put("senderPublicKey", senderPublicKey);
+        op.put("transactionType", transactionType);
+        op.put("fee", fee);
+        op.put("feeScale", feeScale);
+        op.put("timestamp", timestamp);
         switch (transactionType) {
             case PAYMENT:
-                map.put("recipient", recipient);
-                map.put("amount", amount);
-                map.put("attachment", attachment);
+                op.put("recipient", recipient);
+                op.put("amount", amount);
+                op.put("attachment", attachment);
                 break;
             case LEASE:
-                map.put("recipient", recipient);
-                map.put("amount", amount);
+                op.put("recipient", recipient);
+                op.put("amount", amount);
                 break;
             case CANCEL_LEASE:
-                map.put("recipient", recipient);
-                map.put("txId", txId);
+                op.put("recipient", recipient);
+                op.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("contract", Base58.encode(contractObj.getContract()));
-                map.put("description", attachment);
-                map.put("contractInit", data);
-                map.put("contractInitTextual", contractInitTextual);
-                map.put("contractInitExplain", contractInitExplain);
+                op.put("contract", Base58.encode(contractObj.getContract()));
+                op.put("description", attachment);
+                op.put("contractInit", contractInit);
+                op.put("contractInitTextual", contractInitTextual);
+                op.put("contractInitExplain", contractInitExplain);
+                op.put("address", address);
                 op.setOpc(Operation.CONTRACT);
                 break;
             case ContractExecute:
-                map.put("attachment", TxUtil.encodeAttachment(attachment));
-                map.put("contractId", contractObj.getContractId());
-                map.put("functionId", functionId);
-                map.put("function",  data);
-                map.put("functionTextual", functionTextual);
-                map.put("functionExplain", functionExplain);
+                op.put("attachment", TxUtil.encodeAttachment(attachment));
+                op.put("contractId", contractObj.getContractId());
+                op.put("functionId", functionId);
+                op.put("function", function);
+                op.put("functionTextual", functionTextual);
+                op.put("functionExplain", functionExplain);
                 op.setOpc(Operation.FUNCTION);
                 break;
         }
-
 
         return JSON.toJSONString(op);
     }
@@ -267,28 +266,12 @@ public class Transaction {
         this.signature = signature;
     }
 
-    public Contract getContractData() {
-        return contractObj;
-    }
-
-    public void setContractData(Contract contractData) {
-        this.contractObj = contractData;
-    }
-
     public short getFunctionId() {
         return functionId;
     }
 
     public void setFunctionId(short functionId) {
         this.functionId = functionId;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public String getActionCode() {
@@ -361,5 +344,13 @@ public class Transaction {
 
     public void setContractObj(Contract contractObj) {
         this.contractObj = contractObj;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
