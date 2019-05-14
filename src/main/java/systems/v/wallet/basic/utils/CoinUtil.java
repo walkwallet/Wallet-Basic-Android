@@ -19,7 +19,7 @@ public class CoinUtil {
     }
 
     public static String format(long amount, long unity){
-        BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(unity));
+        BigDecimal decimal = new BigDecimal(amount).divide(new BigDecimal(unity));
         if (decimal.compareTo(BigDecimal.ZERO) == 0) {
             decimal = decimal.setScale(2);
         }
