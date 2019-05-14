@@ -81,12 +81,12 @@ public class Transaction {
             }
             break;
             case ContractRegister: {
-                tx = Vsys.newRegisterTransaction(contractObj.getContract(), Base58.decode(contractInit), attachment);
+                tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), attachment);
 //                amount = contractObj.getAmount();
             }
             break;
             case ContractExecute: {
-                tx = Vsys.newExecuteTransaction(contractObj.getContractId(), Base58.decode(function), functionId,  attachment);
+                tx = Vsys.newExecuteTransaction(contractId, Base58.decode(function), functionId,  attachment);
             }
             break;
         }
@@ -120,12 +120,12 @@ public class Transaction {
                 map.put("txId", txId);
                 break;
             case ContractRegister:
-                map.put("contract", Base58.encode(contractObj.getContract()));
+                map.put("contract", contract);
                 map.put("initData", contractInit);
                 map.put("description", attachment);
                 break;
             case ContractExecute:
-                map.put("contractId", contractObj.getContractId());
+                map.put("contractId", contractId);
                 map.put("functionIndex", functionId);
                 map.put("functionData",  function);
                 map.put("attachment", TxUtil.encodeAttachment(attachment));
@@ -158,7 +158,7 @@ public class Transaction {
                 op.put("txId", txId);
                 break;
             case ContractRegister:
-                op.put("contract", Base58.encode(contractObj.getContract()));
+                op.put("contract", contract);
                 op.put("description", attachment);
                 op.put("contractInit", contractInit);
                 op.put("contractInitTextual", contractInitTextual);
@@ -168,7 +168,7 @@ public class Transaction {
                 break;
             case ContractExecute:
                 op.put("attachment", TxUtil.encodeAttachment(attachment));
-                op.put("contractId", contractObj.getContractId());
+                op.put("contractId", contract);
                 op.put("functionId", functionId);
                 op.put("function", function);
                 op.put("functionTextual", functionTextual);
