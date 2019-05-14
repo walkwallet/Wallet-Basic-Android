@@ -81,12 +81,12 @@ public class Transaction {
             }
             break;
             case ContractRegister: {
-                tx = Vsys.newRegisterTransaction(contractObj, attachment);
-                amount = contractObj.getAmount();
+                tx = Vsys.newRegisterTransaction(contractObj.getContract(), Base58.decode(contractInit), attachment);
+//                amount = contractObj.getAmount();
             }
             break;
             case ContractExecute: {
-                tx = Vsys.newExecuteTransaction(contractObj, functionId, actionCode, attachment);
+                tx = Vsys.newExecuteTransaction(contractObj.getContractId(), Base58.decode(function), functionId,  attachment);
             }
             break;
         }
