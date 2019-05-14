@@ -80,13 +80,11 @@ public class Transaction {
             break;
             case ContractRegister: {
                 tx = Vsys.newRegisterTransaction(contractObj, attachment);
-                data = Base58.encode(tx.getData());
                 amount = contractObj.getAmount();
             }
             break;
             case ContractExecute: {
                 tx = Vsys.newExecuteTransaction(contractObj, functionId, actionCode, attachment);
-                data = Base58.encode(tx.getData());
             }
             break;
         }
@@ -143,6 +141,8 @@ public class Transaction {
         map.put("fee", fee);
         map.put("feeScale", feeScale);
         map.put("timestamp", timestamp);
+        Operation op = new Operation(map);
+        op.setOpc(Operation.TRANSACTION);
         switch (transactionType) {
             case PAYMENT:
                 map.put("recipient", recipient);
@@ -163,6 +163,7 @@ public class Transaction {
                 map.put("contractInit", data);
                 map.put("contractInitTextual", contractInitTextual);
                 map.put("contractInitExplain", contractInitExplain);
+                op.setOpc(Operation.CONTRACT);
                 break;
             case ContractExecute:
                 map.put("attachment", TxUtil.encodeAttachment(attachment));
@@ -171,10 +172,11 @@ public class Transaction {
                 map.put("function",  data);
                 map.put("functionTextual", functionTextual);
                 map.put("functionExplain", functionExplain);
+                op.setOpc(Operation.FUNCTION);
                 break;
         }
-        Operation op = new Operation(map);
-        op.setOpc(Operation.TRANSACTION);
+
+
         return JSON.toJSONString(op);
     }
 
@@ -351,5 +353,13 @@ public class Transaction {
 
     public void setFunctionExplain(String functionExplain) {
         this.functionExplain = functionExplain;
+    }
+
+    public Contract getContractObj() {
+        return contractObj;
+    }
+
+    public void setContractObj(Contract contractObj) {
+        this.contractObj = contractObj;
     }
 }
