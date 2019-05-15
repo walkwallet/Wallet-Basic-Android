@@ -19,8 +19,8 @@ public class Transaction {
     public static final int LEASE = (int) Vsys.TxTypeLease;
     public static final int CANCEL_LEASE = (int) Vsys.TxTypeCancelLease;
     public static final int MINTING = (int) Vsys.TxTypeMining;
-    public static final int ContractRegister = (int) Vsys.TxTypeContractRegister;
-    public static final int ContractExecute = (int) Vsys.TxTypeContractExecute;
+    public static final int CONTRACT_REGISTER = (int) Vsys.TxTypeContractRegister;
+    public static final int CONTRACT_EXECUTE = (int) Vsys.TxTypeContractExecute;
 
     public static final long DEFAULT_FEE = Vsys.DefaultTxFee;
     public static final short DEFAULT_FEE_SCALE = Vsys.DefaultFeeScale;
@@ -58,7 +58,7 @@ public class Transaction {
 
     public static boolean validate(int type) {
         return type == PAYMENT || type == LEASE || type == CANCEL_LEASE ||
-                type == ContractRegister || type == ContractExecute;
+                type == CONTRACT_REGISTER || type == CONTRACT_EXECUTE;
     }
 
     public void sign(Account sender) {
@@ -80,11 +80,11 @@ public class Transaction {
                 tx = Vsys.newCancelLeaseTransaction(txId);
             }
             break;
-            case ContractRegister: {
+            case CONTRACT_REGISTER: {
                 tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), attachment);
             }
             break;
-            case ContractExecute: {
+            case CONTRACT_EXECUTE: {
                 tx = Vsys.newExecuteTransaction(contractId, Base58.decode(function), functionId,  attachment);
             }
             break;
@@ -118,12 +118,12 @@ public class Transaction {
                 map.put("recipient", recipient);
                 map.put("txId", txId);
                 break;
-            case ContractRegister:
+            case CONTRACT_REGISTER:
                 map.put("contract", contract);
                 map.put("initData", contractInit);
                 map.put("description", attachment);
                 break;
-            case ContractExecute:
+            case CONTRACT_EXECUTE:
                 map.put("contractId", contractId);
                 map.put("functionIndex", functionId);
                 map.put("functionData",  function);
@@ -156,7 +156,7 @@ public class Transaction {
                 op.put("recipient", recipient);
                 op.put("txId", txId);
                 break;
-            case ContractRegister:
+            case CONTRACT_REGISTER:
                 op.put("contract", contract);
                 op.put("description", attachment);
                 op.put("contractInit", contractInit);
@@ -165,7 +165,7 @@ public class Transaction {
                 op.put("address", address);
                 op.setOpc(Operation.CONTRACT);
                 break;
-            case ContractExecute:
+            case CONTRACT_EXECUTE:
                 op.put("attachment", attachment);
                 op.put("contractId", contractId);
                 op.put("functionId", functionId);

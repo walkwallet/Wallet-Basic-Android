@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import systems.v.wallet.basic.R;
 import systems.v.wallet.basic.wallet.Transaction;
-import vsys.Contract;
 
 public class TxUtil {
 
@@ -21,10 +20,10 @@ public class TxUtil {
             case Transaction.CANCEL_LEASE:
                 textId = R.string.tx_type_cancel_lease;
                 break;
-            case Transaction.ContractRegister:
+            case Transaction.CONTRACT_REGISTER:
                 textId = R.string.tx_type_contract_register;
                 break;
-            case Transaction.ContractExecute:
+            case Transaction.CONTRACT_EXECUTE:
                 textId = R.string.tx_type_contract_execute;
                 break;
         }
