@@ -82,7 +82,6 @@ public class Transaction {
             break;
             case ContractRegister: {
                 tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), attachment);
-//                amount = contractObj.getAmount();
             }
             break;
             case ContractExecute: {
@@ -167,8 +166,8 @@ public class Transaction {
                 op.setOpc(Operation.CONTRACT);
                 break;
             case ContractExecute:
-                op.put("attachment", TxUtil.encodeAttachment(attachment));
-                op.put("contractId", contract);
+                op.put("attachment", attachment);
+                op.put("contractId", contractId);
                 op.put("functionId", functionId);
                 op.put("function", function);
                 op.put("functionTextual", functionTextual);
