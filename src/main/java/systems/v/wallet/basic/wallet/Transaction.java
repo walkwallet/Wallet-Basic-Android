@@ -158,7 +158,7 @@ public class Transaction {
                 break;
             case CONTRACT_REGISTER:
                 op.put("contract", contract);
-                op.put("description", attachment);
+                op.put("attachment", attachment);
                 op.put("contractInit", contractInit);
                 op.put("contractInitTextual", contractInitTextual);
                 op.put("contractInitExplain", contractInitExplain);
