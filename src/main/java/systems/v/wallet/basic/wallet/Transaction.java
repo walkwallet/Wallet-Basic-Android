@@ -42,6 +42,7 @@ public class Transaction {
     private Contract contractObj;
     private String actionCode; //functionId may change, use actionCode to mark specific execution
 
+    private String description;
     private String contract;
     private String contractId;
     private String contractInit;
@@ -81,7 +82,7 @@ public class Transaction {
             }
             break;
             case CONTRACT_REGISTER: {
-                tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), attachment);
+                tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), description);
             }
             break;
             case CONTRACT_EXECUTE: {
@@ -121,7 +122,7 @@ public class Transaction {
             case CONTRACT_REGISTER:
                 map.put("contract", contract);
                 map.put("initData", contractInit);
-                map.put("description", attachment);
+                map.put("description", description);
                 break;
             case CONTRACT_EXECUTE:
                 map.put("contractId", contractId);
@@ -158,7 +159,7 @@ public class Transaction {
                 break;
             case CONTRACT_REGISTER:
                 op.put("contract", contract);
-                op.put("attachment", attachment);
+                op.put("description", attachment);
                 op.put("contractInit", contractInit);
                 op.put("contractInitTextual", contractInitTextual);
                 op.put("contractInitExplain", contractInitExplain);
@@ -166,7 +167,7 @@ public class Transaction {
                 op.setOpc(Operation.CONTRACT);
                 break;
             case CONTRACT_EXECUTE:
-                op.put("attachment", attachment);
+                op.put("attachment", TxUtil.encodeAttachment(attachment));
                 op.put("contractId", contractId);
                 op.put("functionId", functionId);
                 op.put("function", function);
@@ -360,5 +361,13 @@ public class Transaction {
 
     public void setContractId(String contractId) {
         this.contractId = contractId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
