@@ -15,7 +15,8 @@ import systems.v.wallet.basic.wallet.Operation;
 
 public class QRCodeUtil {
     private static final String TAG = "QRCodeUtil";
-    public static final int pageSize = 4;
+    public static final int pageSize = 400;
+    public static final String prefix = "Seg";
 
     public static Bitmap generateQRCode(String message, int width) {
         Bitmap qrCode;
@@ -76,7 +77,7 @@ public class QRCodeUtil {
         if(message == null){
             return null;
         }
-        String checksum = SHA.SHA256(message).substring(0,4);
+        String checksum = SHA.SHA256(message).substring(0,8);
 
         int total = message.length() / pageSize + 1;
         for (int i = 0;i < total;i++){
@@ -105,7 +106,7 @@ public class QRCodeUtil {
         StringBuilder result = new StringBuilder();
         String checksum = "";
         for(int i=0;i < list.size();i++){
-            QRCode qrCode = getPageMessage(list.get(i));
+            QRCode qrCode = parsePageMessage(list.get(i));
             if(qrCode == null){
                 throw new Exception("Parse code failed: " + list.get(i));
             }
@@ -120,24 +121,35 @@ public class QRCodeUtil {
         return result.toString();
     }
 
-    public static QRCode getPageMessage(String msg){
+    public static QRCode parsePageMessage(String msg){
         String[] datas = msg.split("/");
-        if (datas.length != 4){
+        if (datas.length != 5){
             return null;
         }
         QRCode qrcode = new QRCode();
-        qrcode.setCurrent(Integer.parseInt(datas[0]));
-        qrcode.setTotal(Integer.parseInt(datas[1]));
-        qrcode.setChecksum(datas[2]);
-        qrcode.setBody(datas[3]);
+        qrcode.setCurrent(Integer.parseInt(datas[1]));
+        qrcode.setTotal(Integer.parseInt(datas[2]));
+        qrcode.setChecksum(datas[3]);
+        qrcode.setBody(datas[4]);
         return qrcode;
     }
 
-    public static void main(String[] args){
-        String t = "123456789";
-        List list = formatPageMessages(t);
-        for (int i=0;i<list.size();i++){
-            System.out.println(list.get(i));
+    public static String getBodyConcatStr(List<QRCode> qrCodes){
+        StringBuilder result = new StringBuilder();
+        for (int i=0;i<qrCodes.size();i++){
+            if(i > 0){
+                if(qrCodes.get(i).getCurrent() != (qrCodes.get(i - 1).getCurrent() + 1) ||
+                        !qrCodes.get(0).getChecksum().equals(qrCodes.get(i).getChecksum())){
+                    return "";
+                }
+            }
+            result.append(qrCodes.get(i).getBody());
+        }
+
+        if(SHA.SHA256(result.toString()).substring(0,8).equals(qrCodes.get(0).getChecksum())){
+            return result.toString();
+        }else{
+            return "";
         }
     }
 
