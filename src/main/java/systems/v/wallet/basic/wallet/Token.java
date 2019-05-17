@@ -7,11 +7,13 @@ public class Token {
     private String Icon;
     private String Name;
     private String tokenId;
+    private String contractId;
     private long   Balance;
     private long   unity;
     private long   max;
     private ContractFunc[] funcs;
     private String issuer;
+    private String maker;
     private String registerTime;
     private long   issuedAmount;
     private String Description;
@@ -102,5 +104,21 @@ public class Token {
 
     public void setDescription(String description) {
         Description = description;
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
+
+    public String getMaker() {
+        return maker;
+    }
+
+    public void setMaker(String maker) {
+        this.maker = maker;
     }
 }

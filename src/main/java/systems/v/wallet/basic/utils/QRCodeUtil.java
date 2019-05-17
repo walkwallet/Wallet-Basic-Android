@@ -15,7 +15,7 @@ import systems.v.wallet.basic.wallet.Operation;
 
 public class QRCodeUtil {
     private static final String TAG = "QRCodeUtil";
-    public static final int pageSize = 400;
+    public static final int pageSize = 300;
     public static final String prefix = "Seg";
 
     public static Bitmap generateQRCode(String message, int width) {
