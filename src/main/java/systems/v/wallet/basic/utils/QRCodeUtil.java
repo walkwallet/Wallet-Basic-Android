@@ -3,10 +3,8 @@ package systems.v.wallet.basic.utils;
 import android.graphics.Bitmap;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.qrcode.encoder.QRCode;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +13,8 @@ import systems.v.wallet.basic.wallet.Operation;
 
 public class QRCodeUtil {
     private static final String TAG = "QRCodeUtil";
-    public static final int pageSize = 300;
-    public static final String prefix = "Seg";
+    public static final int PageSize = 300;
+    public static final String Prefix = "Seg/";
 
     public static Bitmap generateQRCode(String message, int width) {
         Bitmap qrCode;
@@ -77,12 +75,12 @@ public class QRCodeUtil {
         if(message == null){
             return null;
         }
-        String checksum = SHA.SHA256(message).substring(0,8);
 
-        int total = message.length() / pageSize + 1;
+        String checksum = SHA.SHA256(message).substring(0,8);
+        int total = message.length() / PageSize + 1;
         for (int i = 0;i < total;i++){
-            int beginIndex = i * pageSize;
-            int endIndex   = (i + 1) * pageSize;
+            int beginIndex = i * PageSize;
+            int endIndex   = (i + 1) * PageSize;
             if (endIndex > message.length()){
                 endIndex = message.length();
             }
