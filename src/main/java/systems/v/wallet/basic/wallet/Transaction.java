@@ -169,7 +169,7 @@ public class Transaction {
                 op.setOpc(Operation.CONTRACT);
                 break;
             case CONTRACT_EXECUTE:
-                op.put("attachment", attachment);
+                op.put("attachment", TxUtil.encodeAttachment(attachment));
                 op.put("contractId", contractId);
                 op.put("functionId", functionId);
                 op.put("function", function);
