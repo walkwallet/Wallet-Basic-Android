@@ -62,8 +62,10 @@ public class Transaction {
                 type == CONTRACT_REGISTER || type == CONTRACT_EXECUTE;
     }
 
+
     public void sign(Account sender) {
         vsys.Transaction tx = null;
+        signature = "";
         Log.d(TAG, JSON.toJSONString(this));
         switch (transactionType) {
             case PAYMENT: {
@@ -82,18 +84,19 @@ public class Transaction {
             }
             break;
             case CONTRACT_REGISTER: {
-                tx = Vsys.newRegisterTransaction(Base58.decode(contract), Base58.decode(contractInit), description);
+                tx = Vsys.newRegisterTransaction(contract, contractInit, description);
             }
             break;
             case CONTRACT_EXECUTE: {
-                tx = Vsys.newExecuteTransaction(contractId, Base58.decode(function), functionId,  attachment);
+                tx = Vsys.newExecuteTransaction(contractId, function, functionId,  attachment);
             }
             break;
         }
         if (tx != null) {
-            tx.setFee(fee);
-            tx.setFeeScale(feeScale);
-            tx.setTimestamp(timestamp * 1000000);
+//            tx.setFee(fee);
+//            tx.setFeeScale(feeScale);
+            timestamp = tx.getTimestamp() / 1000000;
+
             signature = sender.getSignature(tx.buildTxData());
         }
     }
