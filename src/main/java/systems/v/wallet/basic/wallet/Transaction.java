@@ -93,9 +93,9 @@ public class Transaction {
             break;
         }
         if (tx != null) {
-//            tx.setFee(fee);
-//            tx.setFeeScale(feeScale);
-            timestamp = tx.getTimestamp() / 1000000;
+            tx.setFee(fee);
+            tx.setFeeScale(feeScale);
+            tx.setTimestamp(timestamp * 1000000);
 
             signature = sender.getSignature(tx.buildTxData());
         }
@@ -141,30 +141,32 @@ public class Transaction {
     // for cold wallet scan
     public String toTxString() {
         Operation op = new Operation(Operation.TRANSACTION);
-        op.put("transactionType", transactionType);
         op.put("fee", fee);
         op.put("feeScale", feeScale);
         op.put("timestamp", timestamp);
         switch (transactionType) {
             case PAYMENT:
+                op.put("transactionType", transactionType);
                 op.put("recipient", recipient);
                 op.put("amount", amount);
                 op.put("attachment", attachment);
                 op.put("senderPublicKey", senderPublicKey);
                 break;
             case LEASE:
+                op.put("transactionType", transactionType);
                 op.put("recipient", recipient);
                 op.put("amount", amount);
                 op.put("senderPublicKey", senderPublicKey);
                 break;
             case CANCEL_LEASE:
+                op.put("transactionType", transactionType);
                 op.put("recipient", recipient);
                 op.put("txId", txId);
                 op.put("senderPublicKey", senderPublicKey);
                 break;
             case CONTRACT_REGISTER:
                 op.put("contract", contract);
-                op.put("description", attachment);
+                op.put("description", description);
                 op.put("contractInit", contractInit);
                 op.put("contractInitTextual", contractInitTextual);
                 op.put("contractInitExplain", contractInitExplain);
