@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import systems.v.wallet.basic.utils.Base58;
+import systems.v.wallet.basic.utils.CoinUtil;
 import systems.v.wallet.basic.utils.TxUtil;
 import vsys.Contract;
 import vsys.Vsys;
@@ -151,12 +152,22 @@ public class Transaction {
                 op.put("amount", amount);
                 op.put("attachment", attachment);
                 op.put("senderPublicKey", senderPublicKey);
+                if(amount > 9007199254740991l && CoinUtil.format(amount).contains(".")){
+                    op.setApi(2);
+                }else{
+                    op.setApi(1);
+                }
                 break;
             case LEASE:
                 op.put("transactionType", transactionType);
                 op.put("recipient", recipient);
                 op.put("amount", amount);
                 op.put("senderPublicKey", senderPublicKey);
+                if(amount > 9007199254740991l && CoinUtil.format(amount).contains(".")){
+                    op.setApi(2);
+                }else{
+                    op.setApi(1);
+                }
                 break;
             case CANCEL_LEASE:
                 op.put("transactionType", transactionType);
@@ -171,6 +182,7 @@ public class Transaction {
                 op.put("contractInitTextual", contractInitTextual);
                 op.put("contractInitExplain", contractInitExplain);
                 op.put("address", address);
+                op.setApi(3);
                 op.setOpc(Operation.CONTRACT);
                 break;
             case CONTRACT_EXECUTE:
@@ -178,9 +190,10 @@ public class Transaction {
                 op.put("contractId", contractId);
                 op.put("functionId", functionId);
                 op.put("function", function);
-                op.put("functionTextual", functionTextual);
+//                op.put("functionTextual", functionTextual); //comment for making QRcode 1 page
                 op.put("functionExplain", functionExplain);
                 op.put("address", address);
+                op.setApi(3);
                 op.setOpc(Operation.FUNCTION);
                 break;
         }

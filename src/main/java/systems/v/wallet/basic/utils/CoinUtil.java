@@ -39,19 +39,31 @@ public class CoinUtil {
             return 0;
         }
         BigDecimal decimal = new BigDecimal(amount).movePointRight(8);
-        return decimal.longValueExact();
+
+        return decimal.longValue();
     }
 
     public static long parse(String amount, long unity) {
+        BigDecimal decimal = parseBigDecimal(amount, unity);
+
+        if (decimal != null){
+            return decimal.longValue();
+        }
+        return 0;
+    }
+
+    public static BigDecimal parseBigDecimal(String amount, long unity){
         if (TextUtils.isEmpty(amount)) {
-            return 0;
+            return null;
         }
         amount = amount.replace(UNIT, "").trim();
-        if (!validate(amount)) {
-            return 0;
-        }
         BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(unity));
-        return decimal.longValue();
+        System.out.println( decimal.toString());
+        if (!validate(amount, unity)) {
+            return null;
+        }
+
+        return decimal;
     }
 
     public static long formatLong(long amount, long unity) {
@@ -72,4 +84,17 @@ public class CoinUtil {
             return false;
         }
     }
+
+    public static boolean validate(String amount, long unity) {
+        try {
+            int scale = (int)Math.log10(unity);
+            BigDecimal maxLong = new BigDecimal(Long.MAX_VALUE).movePointLeft(scale);
+            BigDecimal decimal = new BigDecimal(amount);
+            return decimal.compareTo(maxLong) <= 0 &&
+                    decimal.compareTo(BigDecimal.ZERO) >= 0 && decimal.scale() <= scale;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

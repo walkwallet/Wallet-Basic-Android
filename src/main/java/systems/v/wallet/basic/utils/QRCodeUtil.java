@@ -32,13 +32,16 @@ public class QRCodeUtil {
         Operation op = new Operation(Operation.ACCOUNT);
         op.set("address", address);
         op.set("amount", amount);
-        op.set("invoice", "");
+        op.setApi(1);//Hardcode when no invoice
+//        op.set("invoice", "");
         return op.toStr();
     }
 
+    // cold wallet sign
     public static String getSignatureStr(String signature) {
         Operation op = new Operation(Operation.SIGNATURE);
         op.set("signature", signature);
+        op.setApi(1);
         return op.toStr();
     }
 
