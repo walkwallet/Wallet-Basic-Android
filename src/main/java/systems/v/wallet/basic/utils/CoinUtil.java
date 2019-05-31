@@ -58,7 +58,6 @@ public class CoinUtil {
         }
         amount = amount.replace(UNIT, "").trim();
         BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(unity));
-        System.out.println( decimal.toString());
         if (!validate(amount, unity)) {
             return null;
         }
@@ -87,7 +86,7 @@ public class CoinUtil {
 
     public static boolean validate(String amount, long unity) {
         try {
-            int scale = (int)Math.log10(unity);
+            int scale = Double.valueOf(Math.log10(unity)).intValue();
             BigDecimal maxLong = new BigDecimal(Long.MAX_VALUE).movePointLeft(scale);
             BigDecimal decimal = new BigDecimal(amount);
             return decimal.compareTo(maxLong) <= 0 &&
@@ -96,5 +95,4 @@ public class CoinUtil {
             return false;
         }
     }
-
 }
