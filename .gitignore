@@ -7,10 +7,3 @@
 /captures
 .externalNativeBuild
 /app/release
-*__gen.go
-*__ignore.go
-*.swp
-*.swo
-~i_*
-ig_*
-zzzig_*
