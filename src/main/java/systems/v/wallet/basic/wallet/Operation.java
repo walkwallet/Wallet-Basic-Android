@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import systems.v.vsys.Vsys;
+import vsys.Vsys;
+
 
 public class Operation extends HashMap<String, Object> {
 
@@ -18,9 +19,11 @@ public class Operation extends HashMap<String, Object> {
     public static final String SIGNATURE = Vsys.OpcTypeSignature;
     public static final String SEED = Vsys.OpcTypeSeed;
     public static final String TRANSACTION = Vsys.OpcTypeTransction;
+    public static final String CONTRACT = Vsys.OpcTypeContract;
+    public static final String FUNCTION = Vsys.OpcTypeFunction;
 
     private static final List<String> OPCS = Collections.unmodifiableList(Arrays.asList(
-            ACCOUNT, SIGNATURE, SEED, TRANSACTION));
+            ACCOUNT, SIGNATURE, SEED, TRANSACTION, CONTRACT, FUNCTION));
 
     private static final String KEY_PROTOCOL = "protocol";
     private static final String KEY_API = "api";

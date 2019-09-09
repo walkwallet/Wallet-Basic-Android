@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import systems.v.vsys.Vsys;
 import systems.v.wallet.basic.wallet.Wallet;
+import vsys.Vsys;
 
 public class FileUtil {
     private final static String TAG = "FileUtil";

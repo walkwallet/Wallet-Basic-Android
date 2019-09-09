@@ -6,4 +6,6 @@
     <string name="tx_type_payment">Payment</string>
     <string name="tx_type_lease">Lease</string>
     <string name="tx_type_cancel_lease">Cancel Lease</string>
+    <string name="tx_type_contract_register">Register Contract</string>
+    <string name="tx_type_contract_execute">Execute Contract</string>
 </resources>
