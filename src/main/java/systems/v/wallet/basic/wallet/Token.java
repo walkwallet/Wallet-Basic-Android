@@ -17,6 +17,8 @@ public class Token {
     private String registerTime;
     private long   issuedAmount;
     private String Description;
+    private boolean isVerified;
+    private boolean isAdded;
 
     public String getIcon() {
         return Icon;
@@ -120,5 +122,21 @@ public class Token {
 
     public void setMaker(String maker) {
         this.maker = maker;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public boolean isAdded() {
+        return isAdded;
+    }
+
+    public void setAdded(boolean added) {
+        isAdded = added;
     }
 }
