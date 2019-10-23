@@ -19,6 +19,7 @@ public class Token {
     private String Description;
     private boolean isVerified;
     private boolean isAdded;
+    private boolean isSpilt;
 
     public String getIcon() {
         return Icon;
@@ -138,5 +139,13 @@ public class Token {
 
     public void setAdded(boolean added) {
         isAdded = added;
+    }
+
+    public boolean isSpilt() {
+        return isSpilt;
+    }
+
+    public void setSpilt(boolean spilt) {
+        isSpilt = spilt;
     }
 }

@@ -30,6 +30,10 @@ public class CoinUtil {
         return format(amount) + " " + UNIT;
     }
 
+    public static String formatWithUnit(long amount, long unity, String unit) {
+        return format(amount, unity) + " " + unit;
+    }
+
     public static long parse(String amount) {
         if (TextUtils.isEmpty(amount)) {
             return 0;
