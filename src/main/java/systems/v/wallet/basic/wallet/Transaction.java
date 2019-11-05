@@ -54,6 +54,7 @@ public class Transaction {
     private String function;
     private String functionTextual;
     private String functionExplain;
+    private String invoice;
 
     public Transaction() {
     }
@@ -390,5 +391,13 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
     }
 }
