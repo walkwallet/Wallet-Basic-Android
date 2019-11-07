@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class CoinUtil {
 
@@ -19,11 +20,22 @@ public class CoinUtil {
     }
 
     public static String format(long amount, long unity){
-        BigDecimal decimal = new BigDecimal(amount).divide(new BigDecimal(unity));
-        if (decimal.compareTo(BigDecimal.ZERO) == 0) {
-            decimal = decimal.setScale(2);
+        if (unity == 0){
+            return new BigDecimal(amount).toPlainString();
         }
-        return decimal.stripTrailingZeros().toPlainString();
+        try {
+            BigDecimal decimal = new BigDecimal(amount).divide(new BigDecimal(unity));
+            if (decimal.compareTo(BigDecimal.ZERO) == 0) {
+                decimal = decimal.setScale(2);
+            }
+            return decimal.stripTrailingZeros().toPlainString();
+        }catch (Exception e){
+            BigDecimal decimal = new BigDecimal(amount).divide(new BigDecimal(unity), 12, RoundingMode.FLOOR);
+            if (decimal.compareTo(BigDecimal.ZERO) == 0) {
+                decimal = decimal.setScale(2);
+            }
+            return decimal.stripTrailingZeros().toPlainString();
+        }
     }
 
     public static String formatWithUnit(long amount) {
