@@ -151,7 +151,7 @@ public class Transaction {
                 op.put("transactionType", transactionType);
                 op.put("recipient", recipient);
                 op.put("amount", amount);
-                op.put("attachment", attachment);
+                op.put("attachment", TxUtil.encodeAttachment(attachment));
                 op.put("senderPublicKey", senderPublicKey);
                 if(amount > 9007199254740991l && CoinUtil.format(amount).contains(".")){
                     op.setApi(2);
