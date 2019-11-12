@@ -158,6 +158,9 @@ public class Transaction {
                 }else{
                     op.setApi(1);
                 }
+                if(attachment != null && !attachment.isEmpty()){
+                    op.setApi(4);
+                }
                 break;
             case LEASE:
                 op.put("transactionType", transactionType);
@@ -195,6 +198,9 @@ public class Transaction {
                 op.put("functionExplain", functionExplain);
                 op.put("address", address);
                 op.setApi(3);
+                if(attachment != null && !attachment.isEmpty()){
+                    op.setApi(4);
+                }
                 op.setOpc(Operation.FUNCTION);
                 break;
         }
