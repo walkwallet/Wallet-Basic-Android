@@ -55,6 +55,7 @@ public class QRCodeUtil {
     public static String getSeedStr(String seed) {
         Operation op = new Operation(Operation.SEED);
         op.set("seed", seed);
+        op.setApi(1);
         return op.toStr();
     }
 
