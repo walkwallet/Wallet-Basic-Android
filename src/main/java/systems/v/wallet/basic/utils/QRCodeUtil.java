@@ -49,6 +49,7 @@ public class QRCodeUtil {
         Operation op = new Operation(Operation.ACCOUNT);
         op.set("address", address);
         op.set("publicKey", publicKey);
+        op.setApi(1);
         return op.toStr();
     }
 
