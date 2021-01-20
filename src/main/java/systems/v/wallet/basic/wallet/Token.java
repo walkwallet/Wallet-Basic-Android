@@ -1,8 +1,5 @@
 package systems.v.wallet.basic.wallet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Token {
     private String Icon;
     private String Name;
@@ -20,6 +17,7 @@ public class Token {
     private boolean isVerified;
     private boolean isAdded;
     private boolean isSpilt;
+    private boolean isNft;
 
     public String getIcon() {
         return Icon;
@@ -147,5 +145,13 @@ public class Token {
 
     public void setSpilt(boolean spilt) {
         isSpilt = spilt;
+    }
+
+    public boolean isNft() {
+        return isNft;
+    }
+
+    public void setNft(boolean nft) {
+        isNft = nft;
     }
 }
