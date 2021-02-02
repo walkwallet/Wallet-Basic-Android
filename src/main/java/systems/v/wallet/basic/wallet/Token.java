@@ -18,6 +18,7 @@ public class Token {
     private boolean isAdded;
     private boolean isSpilt;
     private boolean isNft;
+    private boolean isVsys;
 
     public String getIcon() {
         return Icon;
@@ -153,5 +154,13 @@ public class Token {
 
     public void setNft(boolean nft) {
         isNft = nft;
+    }
+
+    public boolean isVsys() {
+        return isVsys;
+    }
+
+    public void setVsys(boolean vsys) {
+        isVsys = vsys;
     }
 }
